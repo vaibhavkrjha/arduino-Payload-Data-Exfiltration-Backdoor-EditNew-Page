@@ -1,4 +1,4 @@
-# arduino-Payload-Data-Exfiltration-Backdoor-EditNew-Page
+# arduino-Payload-Data-Exfiltration-Backdoor
 
 This is a simple script that will grab all of the wifi passwords, external IP address, LAN address, and hostname of the target device and e-mail it to an address of your choice. I recommend you use a Gmail address for this. I have not had luck with Yahoo, Hotmail, etc...
 
